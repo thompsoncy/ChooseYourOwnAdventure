@@ -46,7 +46,8 @@ public interface IPage {
 
 
     /*
-     * removes choice that leads to given Page does nothing if there is no such choice
+     * removes choice that leads to given Page  and replaces it with choice that leads to current page
+     * does nothing if there is no such choice
      */
     void removeChoice(IPage page);
 

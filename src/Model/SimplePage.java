@@ -64,9 +64,9 @@ public class SimplePage implements IPage {
 
     @Override
     public void removeChoice(IPage page) {
-        for (IChoice choice: this.choices) {
-            if(choice.getDestination().equals(page)) {
-                choices.remove(choice);
+        for(int i = 0; i < this.choices.size(); i++) {
+            if(this.choices.get(i).getDestination().equals(page)) {
+                choices.get(i).setDestination(this);
             }
         }
     }

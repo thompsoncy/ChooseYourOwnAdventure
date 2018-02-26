@@ -9,6 +9,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/*
+* represents a simple model of a choose your own adventure that has basic functionality
+* The String output based on user input to any listeners -
+* "NewStory" - Represents when the user would like to start a new story
+* "LoadStory" - Represents when a user would like to load a story
+* "Save" - Represents when a user would like to save the current story
+* "MakeBook" - Represents when a user would like to export current story in a book format
+* "DeletePage" - Represents when a user would like to delete the current page
+*  "Go" - Represents when a user would like to change the current page to the page they have selected
+*  "Link" - Represents when a user would like to link a choice with a page
+*  "AddChoice" - Represents when a user would like to add a choice to this page.
+*  "Choice " + choicenumber  + "" - Represents when a user would like to delete the choice specified by choice number.
+*  "Page " + choicenumber + "" - Represents when a user would like to go to the page linked by a choice.
+*
+*/
 public class SimpleView extends JFrame implements ViewCYOAOperations {
     private ActionListener actionListener;
     private CardLayout screens;
@@ -22,6 +37,7 @@ public class SimpleView extends JFrame implements ViewCYOAOperations {
     private ArrayList<JTextArea> choices;
     private JPanel choicespane;
 
+    // basic constructor
     public SimpleView(IActionListener actionListener) {
 
         super("826 CYOA");
@@ -65,8 +81,6 @@ public class SimpleView extends JFrame implements ViewCYOAOperations {
                 "NewStory"));
         mainscreen.add(this.createButton("Load Saved Choose Your Own Adventure Story",
                 "LoadStory"));
-        toolBar.add(this.createButton("Quit",
-                "Quit"));
         toolBar.add(this.createButton("Save",
                 "Save"));
         toolBar.add(this.createButton("MAKE BOOK",
@@ -149,8 +163,7 @@ public class SimpleView extends JFrame implements ViewCYOAOperations {
             choicespane.add(newchoice);
             this.choices.add(newchoice);
         }
-        this.setVisible(false);
-        this.setVisible(true);
+        this.choicespane.doLayout();
     }
 
     @Override

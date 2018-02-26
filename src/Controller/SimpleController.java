@@ -10,10 +10,14 @@ import Model.SimplePage;
 import View.SimpleView;
 import View.ViewCYOAOperations;
 
+import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/*
+* Represents a simple controller for  a Choose Your Own Adventure MVC.
+*/
 public class SimpleController implements  CYOAControllerOperations {
     private FileReaderNExporter fileReaderNExporter;
     private CYOAModelOperations model;
@@ -29,21 +33,6 @@ public class SimpleController implements  CYOAControllerOperations {
     @Override
     public void startNew() {
         this.model = new SimpleCYOAModel("");
-    }
-
-    @Override
-    public void save(String location) throws FileNotFoundException {
-        this.fileReaderNExporter.saveFile(location, model);
-    }
-
-    @Override
-    public void load(String location) throws FileNotFoundException {
-        this.fileReaderNExporter.readFile(location);
-    }
-
-    @Override
-    public void export(String location) throws FileNotFoundException {
-        this.fileReaderNExporter.exportFile(location, model);
     }
 
     protected void setPage(int pg) {
@@ -69,6 +58,18 @@ public class SimpleController implements  CYOAControllerOperations {
                 view.displayEditingScreen();
                 break;
             case "LoadStory":
+                while (true) {
+                    String lfilename = JOptionPane.showInputDialog(null, "Please Type In The Name of The" +
+                                    "File Where The Book Will Be Loaded From", "Loading Book",
+                            JOptionPane.QUESTION_MESSAGE);
+                    if (lfilename != null) {
+                        try {
+                            model.export(lfilename);
+                            break;
+                        } catch (FileNotFoundException e) {
+                        }
+                    }
+                }
                 break;
             case "Go":
                 model.setChoicesText(pagenumber, view.getChoicesText());
@@ -76,8 +77,49 @@ public class SimpleController implements  CYOAControllerOperations {
                 this.setPage(view.getSelectedPage());
                 break;
             case "Save":
+                String sfilename = JOptionPane.showInputDialog(null, "Please Type In The Name of The" +
+                                "File Where The Book Will Be Saved", "Saving Book",
+                        JOptionPane.QUESTION_MESSAGE);
+                if (sfilename != null) {
+                    try {
+                        model.save(sfilename);
+                    } catch (FileNotFoundException e) {
+                    }
+                }
+                break;
+            case "Link":
+                String message = "type in the choice number and the " +
+                "pg number that you want linked, \n such as to link choice 1 to page 0 you would put in \" 1 0\"";
+                while(true) {
+                    String userinput = JOptionPane.showInputDialog(null, message
+                            , "Link", JOptionPane.QUESTION_MESSAGE);
+                    if (userinput == null) {
+                        break;
+                    }
+                    Scanner gettingints = new Scanner(userinput);
+                    if (gettingints.hasNextInt()) {
+                        int choicenumber = gettingints.nextInt();
+                        if (gettingints.hasNextInt()) {
+                            int newpagenumber = gettingints.nextInt();
+                            if(newpagenumber < model.getPages().size() && choicenumber < model.getPage(this.pagenumber).getChoices().size()) {
+                                model.linkChoiceToPage(this.pagenumber, choicenumber, newpagenumber);
+                                break;
+                            }
+                        }
+                    }
+                    message = "Please Put only the choice and page number and make sure they are correct";
+                }
                 break;
             case "MakeBook":
+                String filename = JOptionPane.showInputDialog(null, "Please Type In The Name of The" +
+                                "File Where The Book Will Be Stored Please", "Making Book",
+                        JOptionPane.QUESTION_MESSAGE);
+                if (filename != null) {
+                    try {
+                        model.export(filename);
+                    } catch (FileNotFoundException e) {
+                    }
+                }
                 break;
             case "DeletePage":
                 if(this.pagenumber != 0) {
@@ -90,6 +132,7 @@ public class SimpleController implements  CYOAControllerOperations {
                 ArrayList<String> choices = view.getChoicesText();
                 choices.add("");
                 view.setChoicesText(choices);
+                //model.setChoicesText(pagenumber, view.getChoicesText());
                 break;
             case "Page":
                 int choicesnumber = sc.nextInt();

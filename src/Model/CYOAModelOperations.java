@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -7,6 +8,21 @@ import java.util.Stack;
 * Represents the operations that a Choose Your Own Adventure Model Requires.
 */
 public interface CYOAModelOperations {
+    /*
+    * Saves current CYOA to given location Based on format specified in model implementation.
+    */
+    void save(String location) throws FileNotFoundException;
+
+    /*
+    * loads current CYOA to given location Based on format specified in model implementation.
+    */
+    void load(String location) throws FileNotFoundException;
+
+    /*
+    * exports this CYOA to given location in the form of a book in text form.
+    */
+    void export(String location) throws FileNotFoundException;
+
     /*
     * @return the title of this choose your own adventure.
     */
@@ -70,6 +86,11 @@ public interface CYOAModelOperations {
      * throws illegal argument exception if index does not exist.
      */
     int getDestinationChoice(int pageindex, int choiceindex) throws IllegalArgumentException;
+
+    /*
+    * links a given choice on given page to a new page
+    */
+    void linkChoiceToPage(int pagenumberofchoice, int choicenumber, int linkedpagenumber);
 
     /*
      * gets 40 characters of the main text of each page and returns it as a list of strings

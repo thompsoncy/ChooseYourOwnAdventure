@@ -16,11 +16,11 @@ public interface FileReaderNExporter {
      * save the animation file in an intermediary form.
      *
      * @param filepath the path of the file to be read
-     * @return the model
+     * @return the model in the form of a string
      * @throws FileNotFoundException if the specified file cannot be read
      * @throws IllegalStateException if the format of the file is invalid
      */
-    CYOAModelOperations readFile(String filepath)
+    String readFile(String filepath)
             throws FileNotFoundException, IllegalStateException;
 
     /**

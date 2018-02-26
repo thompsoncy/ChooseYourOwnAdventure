@@ -10,6 +10,7 @@ public class SimpleChoice implements IChoice {
     private String description;
     private IPage destination;
 
+    // basic constructor
     public SimpleChoice(String description, IPage destination) {
         this.description = description;
         this.destination = destination;
@@ -40,6 +41,6 @@ public class SimpleChoice implements IChoice {
 
     @Override
     public void setDestination(IPage newpage) {
-        this.destination = destination;
+        this.destination = newpage;
     }
 }
